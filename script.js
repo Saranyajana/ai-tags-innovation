@@ -43,13 +43,16 @@ document.addEventListener("DOMContentLoaded", function () {
       };
 
       try {
-        const response = await fetch("http://localhost:8080/api/enquiries", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+        const response = await fetch(
+          "https://ai-tags-backend.onrender.com/api/enquiries",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(enquiry),
           },
-          body: JSON.stringify(enquiry),
-        });
+        );
 
         if (!response.ok) {
           throw new Error("Enquiry submission failed");
@@ -136,13 +139,16 @@ async function trackWebsiteVisit() {
   };
 
   try {
-    const response = await fetch("http://127.0.0.1:8080/api/visitors/track", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "https://ai-tags-backend.onrender.com/api/visitors/track",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(visitorData),
       },
-      body: JSON.stringify(visitorData),
-    });
+    );
 
     if (!response.ok) {
       console.error("Visitor tracking failed:", response.status);
