@@ -3226,53 +3226,22 @@
               notification.style.cursor = "pointer";
 
               notification.addEventListener("click", () => {
-                if (!readNotificationIds.has(String(item.id))) {
-                  readNotificationIds.add(String(item.id));
+                if (!readVisitorNotificationIds.has(String(visitor.id))) {
+                  readVisitorNotificationIds.add(String(visitor.id));
 
                   localStorage.setItem(
-                    READ_NOTIFICATION_IDS_KEY,
-                    JSON.stringify([...readNotificationIds]),
+                    READ_VISITOR_NOTIFICATION_IDS_KEY,
+                    JSON.stringify([...readVisitorNotificationIds]),
                   );
 
-                  unreadNotificationCount = Math.max(
+                  unreadVisitorNotificationCount = Math.max(
                     0,
-                    unreadNotificationCount - 1,
+                    unreadVisitorNotificationCount - 1,
                   );
                 }
 
-                readStatus.textContent = "READ";
+                status.textContent = "READ";
                 updateNotificationBadge();
-
-                // Close notification popup
-                document
-                  .getElementById("notificationPopup")
-                  .classList.add("hidden");
-
-                // Show all enquiries
-                const searchInput = document.getElementById("searchEnquiry");
-                if (searchInput) searchInput.value = "";
-
-                document.querySelectorAll(".enquiry").forEach((card) => {
-                  card.style.display = "";
-                });
-
-                // Scroll to the selected enquiry
-                const targetEnquiry = document.getElementById(
-                  `enquiry-${item.id}`,
-                );
-
-                if (targetEnquiry) {
-                  targetEnquiry.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center",
-                  });
-
-                  targetEnquiry.style.outline = "2px solid #00eaff";
-
-                  setTimeout(() => {
-                    targetEnquiry.style.outline = "";
-                  }, 2500);
-                }
               });
 
               notification.append(title, visitorId, page, date, status);
@@ -3312,7 +3281,6 @@
                   : "NEW";
                 notification.appendChild(readStatus);
                 notification.style.cursor = "pointer";
-
                 notification.addEventListener("click", () => {
                   if (!readNotificationIds.has(String(item.id))) {
                     readNotificationIds.add(String(item.id));
@@ -3330,6 +3298,37 @@
 
                   readStatus.textContent = "READ";
                   updateNotificationBadge();
+
+                  document
+                    .getElementById("notificationPopup")
+                    .classList.add("hidden");
+
+                  document.querySelectorAll(".enquiry").forEach((card) => {
+                    card.style.display = "";
+                  });
+
+                  requestAnimationFrame(() => {
+                    setTimeout(() => {
+                      const targetEnquiry = document.getElementById(
+                        `enquiry-${item.id}`,
+                      );
+
+                      if (targetEnquiry) {
+                        targetEnquiry.scrollIntoView({
+                          behavior: "smooth",
+                          block: "center",
+                        });
+
+                        targetEnquiry.style.outline = "2px solid #00eaff";
+
+                        setTimeout(() => {
+                          targetEnquiry.style.outline = "";
+                        }, 2500);
+                      } else {
+                        console.log("Enquiry card not found:", item.id);
+                      }
+                    }, 300);
+                  });
                 });
                 const customer = document.createElement("strong");
                 customer.textContent = item.customerName || "New Customer";
