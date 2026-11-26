@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Civil & Interior | AI TAGS INNOVATION</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">AI TAGS <span>INNOVATION</span></div>
+      <nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="#civil-services">Services</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="civil-hero">
+      <div class="civil-hero-glow"></div>
+
+      <div class="civil-hero-content">
+        <span class="civil-tag">AI TAGS INNOVATION · CIVIL DIVISION</span>
+
+        <h1>
+          DESIGNING<br />
+          <span>YOUR FUTURE</span>
+        </h1>
+
+        <p class="civil-subtitle">BUILDING SPACES. CREATING BETTER LIVING.</p>
+
+        <p class="civil-description">
+          Professional construction, modern interiors and intelligent
+          architectural planning for tomorrow's spaces.
+        </p>
+
+        <a href="#civil-services" class="civil-explore-btn">
+          EXPLORE OUR SERVICES ↗
+        </a>
+      </div>
+
+      <div class="civil-hero-visual">
+        <div class="building-orbit orbit-a"></div>
+        <div class="building-orbit orbit-b"></div>
+        <div class="civil-light-beam beam-one"></div>
+        <div class="civil-light-beam beam-two"></div>
+        <canvas id="civilBuildingCanvas"></canvas>
+        <div class="civil-floating-label">
+          <span>🏗️</span>
+          <div>
+            <strong>SMART CONSTRUCTION</strong>
+            <small>Building Tomorrow</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="civil-services" class="services-section">
+      <div class="section-heading">
+        <p class="section-label">WHAT WE DO</p>
+        <h2>Our Civil & Interior Services</h2>
+        <p>Innovative solutions for modern spaces and construction.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🏗️</div>
+          <h3>Civil Construction</h3>
+          <p>
+            Quality building construction, renovation and project development.
+          </p>
+          <a href="#contact">Send Enquiry →</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🏠</div>
+          <h3>Interior Designing</h3>
+          <p>Modern interior concepts for beautiful and functional spaces.</p>
+          <a href="#contact">Send Enquiry →</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">📐</div>
+          <h3>2D & 3D Floor Plans</h3>
+          <p>Professional floor plans and realistic 3D visualizations.</p>
+          <a href="#contact">Send Enquiry →</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">👷</div>
+          <h3>Construction Consulting</h3>
+          <p>
+            Expert guidance for planning and managing construction projects.
+          </p>
+          <a href="#contact">Send Enquiry →</a>
+        </div>
+      </div>
+    </section>
+    <section id="contact" class="contact-section">
+      <h2>Send Your Enquiry</h2>
+      <p>Contact Our Civil Team – Dharmapuri | Salem | Hosur</p>
+      <div class="contact-options">
+        <a
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=aitagsinnovation@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-option"
+        >
+          ✉️ Email Us
+        </a>
+        <a
+          href="https://wa.me/917603898500"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-option whatsapp-disabled"
+        >
+          💬 WhatsApp Us
+        </a>
+      </div>
+
+      <form id="civilEnquiryForm" class="enquiry-form">
+        <label for="customerName">Your Name</label>
+        <input
+          type="text"
+          id="customerName"
+          name="customerName"
+          placeholder="Enter your name"
+          required
+        />
+
+        <label for="customerPhone">Phone Number</label>
+        <input
+          type="tel"
+          id="customerPhone"
+          name="customerPhone"
+          placeholder="Enter your phone number"
+          required
+        />
+
+        <label for="civilService">Select Service</label>
+        <select id="civilService" name="civilService" required>
+          <option value="">Choose a service</option>
+          <option value="Civil Construction">Civil Construction</option>
+          <option value="Interior Designing">Interior Designing</option>
+          <option value="2D & 3D Floor Plans">2D & 3D Floor Plans</option>
+          <option value="Construction Consulting">
+            Construction Consulting
+          </option>
+        </select>
+
+        <label for="projectDetails">Project Details</label>
+        <textarea
+          id="projectDetails"
+          name="projectDetails"
+          placeholder="Tell us about your project"
+          required
+        ></textarea>
+
+        <button type="submit">Submit Enquiry</button>
+      </form>
+    </section>
+
+    <footer class="civil-footer">
+      <div class="civil-footer-content">
+        <h2>AI TAGS <span>INNOVATION</span></h2>
+        <p>Building Spaces. Creating Better Living.</p>
+        <p class="civil-footer-location">DHARMAPURI · SALEM · HOSUR</p>
+      </div>
+
+      <div class="civil-footer-bottom">
+        <p>© 2026 AI TAGS INNOVATION. All Rights Reserved.</p>
+        <a href="index.html">← Back to Home</a>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,3375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI TAG INNOVATION | Admin Dashboard</title>
+    <link rel="icon" href="data:," />
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background: #07111f;
+        color: #eafaff;
+        padding: 30px 18px;
+        min-height: 100vh;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        color: #00eaff;
+        font-size: 30px;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+      }
+
+      .container > p {
+        color: #9bb8ca;
+        margin-bottom: 25px;
+      }
+
+      .login-box,
+      .dashboard {
+        background: #101f32;
+        padding: 30px;
+        border: 1px solid #164b61;
+        border-radius: 20px;
+        margin-top: 25px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .dashboard > h2 {
+        font-size: 27px;
+        margin-bottom: 25px;
+        color: #ffffff;
+      }
+
+      /* Reminder section */
+
+      #followUpDashboard {
+        background: #0b1929;
+        border: 1px solid #1b5268;
+        border-radius: 18px;
+        padding: 25px;
+        margin-bottom: 30px;
+      }
+
+      #followUpDashboard h2 {
+        color: #00eaff;
+        font-size: 22px;
+        margin-bottom: 22px;
+      }
+
+      .reminder-cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        margin-bottom: 22px;
+      }
+
+      .reminder-card {
+        background: #172b42;
+        border: 1px solid #236078;
+        border-radius: 15px;
+        padding: 22px;
+        min-height: 115px;
+      }
+
+      .reminder-card h3 {
+        color: #a9c9d9;
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+
+      .reminder-card p {
+        color: #00eaff;
+        font-size: 30px;
+        font-weight: bold;
+      }
+
+      #followUpList {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 15px;
+      }
+
+      #followUpList > div {
+        background: #172b42;
+        border: 1px solid #236078;
+        border-radius: 12px;
+        padding: 18px;
+        line-height: 1.8;
+        overflow-wrap: anywhere;
+      }
+
+      /* Buttons */
+
+      button {
+        background: linear-gradient(135deg, #00d9ee, #00aebf);
+        color: #00131b;
+        font-weight: bold;
+        border: none;
+        padding: 13px 20px;
+        border-radius: 9px;
+        margin: 7px 7px 7px 0;
+        cursor: pointer;
+        transition: 0.25s ease;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 18px rgba(0, 234, 255, 0.2);
+      }
+
+      /* Inputs */
+
+      input,
+      select {
+        background: #eafaff;
+        color: #102235;
+        border: 1px solid #7daebd;
+        border-radius: 8px;
+        padding: 12px;
+        margin: 8px 8px 8px 0;
+        max-width: 100%;
+      }
+
+      #searchEnquiry {
+        width: min(100%, 450px);
+        margin: 15px 0;
+        padding: 15px;
+      }
+
+      /* Dashboard counts */
+
+      #enquiryCount,
+      #civilCount,
+      #softwareCount {
+        display: inline-block;
+        background: #172b42;
+        border: 1px solid #236078;
+        padding: 14px 18px;
+        border-radius: 10px;
+        margin: 5px 8px 15px 0;
+        color: #00eaff;
+        font-weight: bold;
+      }
+
+      /* Enquiry cards */
+
+      .enquiry {
+        background: #172b42;
+        border: 1px solid #236078;
+        padding: 22px;
+        border-radius: 14px;
+        margin-top: 18px;
+        line-height: 1.9;
+        overflow-wrap: anywhere;
+      }
+
+      .enquiry h3 {
+        color: #00eaff;
+        margin-bottom: 12px;
+        font-size: 20px;
+      }
+
+      .enquiry label {
+        display: inline-block;
+        margin-top: 12px;
+        color: #a9c9d9;
+      }
+
+      .enquiry button {
+        background: #ff5c70;
+        color: white;
+      }
+
+      #message {
+        margin-top: 15px;
+        color: #00eaff;
+      }
+
+      /* Mobile layout */
+
+      @media (max-width: 700px) {
+        body {
+          padding: 15px 10px;
+        }
+
+        .login-box,
+        .dashboard {
+          padding: 18px;
+        }
+
+        .reminder-cards,
+        #followUpList {
+          grid-template-columns: 1fr;
+        }
+
+        h1 {
+          font-size: 23px;
+        }
+
+        .dashboard > h2 {
+          font-size: 22px;
+        }
+
+        button {
+          padding: 11px 14px;
+        }
+
+        #enquiryCount,
+        #civilCount,
+        #softwareCount {
+          display: block;
+          width: 100%;
+        }
+      }
+
+      /* Enquiry Summary Cards */
+
+      .enquiry-summary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .summary-card {
+        background: linear-gradient(135deg, #172b42, #103b50);
+        border: 1px solid #23758a;
+        border-radius: 16px;
+        padding: 24px;
+        min-height: 125px;
+        transition: 0.3s ease;
+      }
+
+      .summary-card:hover {
+        transform: translateY(-5px);
+        border-color: #00eaff;
+        box-shadow: 0 8px 25px rgba(0, 234, 255, 0.12);
+      }
+
+      .summary-card h3 {
+        color: #a9c9d9;
+        font-size: 16px;
+        margin-bottom: 18px;
+      }
+
+      .summary-card p {
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
+        color: #00eaff;
+        font-size: 32px;
+        font-weight: bold;
+      }
+
+      @media (max-width: 700px) {
+        .enquiry-summary {
+          grid-template-columns: 1fr;
+        }
+      }
+      /* Enquiry Card Improvements */
+
+      .enquiry {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 25px;
+        margin-top: 20px;
+        border-radius: 16px;
+        border: 1px solid #236078;
+        transition: box-shadow 0.3s ease;
+      }
+
+      .enquiry p {
+        color: #d5e8f0;
+        overflow-wrap: anywhere;
+      }
+
+      .enquiry label {
+        margin-top: 8px;
+        font-weight: bold;
+      }
+
+      .enquiry input[type="date"],
+      .enquiry select {
+        width: min(100%, 280px);
+        margin: 0;
+      }
+
+      .enquiry button {
+        width: fit-content;
+        min-width: 110px;
+        margin-top: 12px;
+      }
+      /* Two-column Enquiry Layout */
+
+      #enquiryList {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+        margin-top: 20px;
+        align-items: start;
+      }
+
+      #enquiryList .enquiry {
+        margin-top: 0;
+        min-width: 0;
+      }
+
+      @media (max-width: 700px) {
+        #enquiryList {
+          grid-template-columns: 1fr;
+        }
+      }
+      /* Enquiry Status Colours */
+
+      .status-pending {
+        background: #fff0c2;
+        color: #9a5b00;
+        border: 1px solid #e5a52b;
+      }
+
+      .status-contacted {
+        background: #d8edff;
+        color: #075a9c;
+        border: 1px solid #3999df;
+      }
+
+      .status-in-progress {
+        background: #eadfff;
+        color: #6334a0;
+        border: 1px solid #a47be0;
+      }
+
+      .status-completed {
+        background: #d8f8e3;
+        color: #14743a;
+        border: 1px solid #48b878;
+      }
+
+      /* Business Analytics */
+
+      #analyticsDashboard {
+        background: #0b1929;
+        border: 1px solid #1b5268;
+        border-radius: 18px;
+        padding: 25px;
+        margin: 30px 0;
+      }
+
+      #analyticsDashboard h2 {
+        color: #00eaff;
+        font-size: 23px;
+        margin-bottom: 22px;
+      }
+
+      .analytics-cards {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .analytics-card {
+        background: linear-gradient(135deg, #172b42, #103b50);
+        border: 1px solid #23758a;
+        border-radius: 15px;
+        padding: 22px;
+        min-height: 115px;
+        transition: 0.3s ease;
+      }
+
+      .analytics-card:hover {
+        transform: translateY(-4px);
+        border-color: #00eaff;
+      }
+
+      .analytics-card h3 {
+        color: #a9c9d9;
+        font-size: 14px;
+        margin-bottom: 18px;
+      }
+
+      .analytics-card p {
+        color: #00eaff;
+        font-size: 30px;
+        font-weight: bold;
+      }
+
+      @media (max-width: 850px) {
+        .analytics-cards {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 500px) {
+        .analytics-cards {
+          grid-template-columns: 1fr;
+        }
+      }
+      /* Compact Analytics Chart */
+
+      .chart-container {
+        width: 100%;
+        max-width: 420px;
+        margin: 25px auto;
+        padding: 20px;
+        background: #101f32;
+        border: 1px solid #1b5268;
+        border-radius: 16px;
+      }
+
+      .chart-container h2 {
+        color: #00eaff;
+        font-size: 19px;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .chart-container canvas {
+        max-height: 260px;
+      }
+      .dashboard-welcome {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        background: linear-gradient(120deg, #102b43, #123e55);
+        border: 1px solid #00bcd4;
+        border-radius: 16px;
+      }
+
+      .dashboard-welcome h2 {
+        color: #00eaff;
+        font-size: 23px;
+        margin-bottom: 8px;
+      }
+
+      .dashboard-welcome p {
+        color: #b5d0df;
+        font-size: 14px;
+      }
+
+      .admin-badge {
+        background: #00d9ee;
+        color: #06202b;
+        padding: 9px 14px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: bold;
+        white-space: nowrap;
+      }
+
+      @media (max-width: 600px) {
+        .dashboard-welcome {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+      .dashboard-clock {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 15px 20px;
+        margin-bottom: 25px;
+        background: #0b1929;
+        border: 1px solid #236078;
+        border-radius: 12px;
+        color: #00eaff;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      @media (max-width: 500px) {
+        .dashboard-clock {
+          flex-direction: column;
+        }
+      }
+      .completion-progress {
+        background: #101d35;
+        padding: 18px;
+        margin: 20px 0;
+        border-radius: 12px;
+        border: 1px solid rgba(0, 220, 255, 0.2);
+      }
+
+      .completion-progress h3 {
+        color: #ffffff;
+        margin-bottom: 15px;
+      }
+
+      .progress-track {
+        width: 100%;
+        height: 12px;
+        background: #263650;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, #00c6ff, #00ffae);
+        border-radius: 20px;
+        transition: width 0.6s ease;
+      }
+
+      #completionProgressText {
+        color: #00e5ff;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      #quickStatistics {
+        margin: 25px 0;
+      }
+
+      .quick-stats-cards {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .quick-stat-card {
+        background: linear-gradient(135deg, #142943, #1b3854);
+        border: 1px solid rgba(0, 220, 255, 0.25);
+        border-radius: 14px;
+        padding: 20px;
+        text-align: center;
+      }
+
+      .quick-stat-card h3 {
+        color: #c5d8e8;
+        font-size: 15px;
+      }
+
+      .quick-stat-card p {
+        color: #00e5ff;
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: 12px;
+      }
+
+      @media (max-width: 700px) {
+        .quick-stats-cards {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      /* Smooth Hover Animation for Dashboard Cards */
+
+      .quick-stat-card,
+      .reminder-card,
+      .completion-progress,
+      .chart-container,
+      .dashboard-welcome,
+      #followUpList > div,
+      .enquiry {
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease,
+          border-color 0.3s ease;
+      }
+
+      .quick-stat-card:hover,
+      .reminder-card:hover,
+      .completion-progress:hover,
+      .chart-container:hover,
+      .dashboard-welcome:hover,
+      #followUpList > div:hover,
+      .enquiry:hover {
+        transform: translateY(-5px);
+        border-color: #00eaff;
+        box-shadow: 0 8px 25px rgba(0, 234, 255, 0.15);
+      }
+      .notification-wrapper {
+        position: relative;
+        z-index: 200;
+      }
+
+      #notificationBtn {
+        position: relative;
+        background: #142943;
+        color: #00eaff;
+        border: 1px solid #00eaff;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        padding: 0;
+        font-size: 22px;
+        cursor: pointer;
+      }
+
+      #notificationCount {
+        position: absolute;
+        top: -7px;
+        right: -7px;
+        background: #ff4058;
+        color: white;
+        font-size: 11px;
+        font-weight: bold;
+        border-radius: 50%;
+        min-width: 19px;
+        height: 19px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .notification-popup {
+        position: absolute;
+        top: 60px;
+        bottom: auto;
+        max-height: 70vh;
+        right: 0;
+        width: 300px;
+        overflow-y: auto;
+        padding: 18px;
+        background: #101f32;
+        border: 1px solid #00eaff;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 234, 255, 0.2);
+        z-index: 9999;
+      }
+
+      .notification-popup h3 {
+        color: #00eaff;
+        margin-bottom: 15px;
+      }
+
+      #notificationList p {
+        color: #d5e8f0;
+        padding: 10px 0;
+        border-bottom: 1px solid #236078;
+      }
+
+      .notification-item {
+        padding: 12px;
+        margin-bottom: 10px;
+        background: #172b42;
+        border-radius: 8px;
+        color: #eafaff;
+        font-size: 13px;
+      }
+      #clearNotificationsBtn {
+        background: #ff4058;
+        color: white;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        margin-bottom: 12px;
+        transition: 0.3s ease;
+      }
+
+      #clearNotificationsBtn:hover {
+        background: #d92d45;
+        transform: translateY(-2px);
+      }
+      @keyframes enquiryHighlight {
+        0% {
+          border-color: #00eaff;
+          box-shadow: 0 0 20px rgba(0, 234, 255, 0.7);
+        }
+
+        100% {
+          border-color: transparent;
+          box-shadow: none;
+        }
+      }
+
+      .enquiry-highlight {
+        animation: enquiryHighlight 2s ease-in-out;
+      }
+
+      @keyframes enquiryHighlight {
+        0%,
+        30% {
+          border-color: #00eaff;
+          box-shadow: 0 0 25px rgba(0, 234, 255, 0.8);
+        }
+
+        100% {
+          border-color: #236078;
+          box-shadow: none;
+        }
+      }
+      .notification-status {
+        display: inline-block;
+        margin-top: 8px;
+        padding: 4px 9px;
+        border-radius: 12px;
+        background: #00eaff;
+        color: #071827;
+        font-size: 10px;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+      .chart-container {
+        transition: all 0.4s ease;
+        border: 1px solid rgba(0, 234, 255, 0.15);
+      }
+
+      .chart-container:hover {
+        transform: translateY(-5px);
+        border-color: #00eaff;
+        box-shadow:
+          0 0 12px rgba(0, 234, 255, 0.25),
+          0 0 30px rgba(0, 234, 255, 0.12);
+      }
+
+      .chart-container h2 {
+        transition: color 0.3s ease;
+      }
+
+      .chart-container:hover h2 {
+        color: #00eaff;
+      }
+      #visitorGrowth {
+        font-weight: bold;
+        transition: all 0.4s ease;
+      }
+
+      .quick-stat-card:hover #visitorGrowth {
+        transform: scale(1.12);
+        text-shadow: 0 0 12px currentColor;
+      }
+      /* ===== PROFESSIONAL DASHBOARD HEADER ===== */
+
+      .dashboard-welcome {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        align-items: center;
+        gap: 20px;
+        padding: 28px;
+        background: linear-gradient(120deg, #102b43, #07506a);
+        border: 1px solid rgba(0, 234, 255, 0.5);
+        border-radius: 18px;
+        box-shadow: 0 10px 35px rgba(0, 200, 255, 0.08);
+        position: relative;
+        z-index: 100;
+      }
+
+      .dashboard-welcome h2 {
+        font-size: 25px;
+        letter-spacing: 0.5px;
+      }
+
+      .dashboard-clock {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 0;
+        min-width: 190px;
+      }
+
+      @media (max-width: 850px) {
+        .dashboard-welcome {
+          grid-template-columns: 1fr auto;
+        }
+
+        .dashboard-clock {
+          grid-column: 1 / -1;
+          grid-row: 2;
+        }
+      }
+      /* ===== PREMIUM STATISTICS CARDS ===== */
+
+      .quick-stats-cards > div {
+        position: relative;
+        overflow: hidden;
+        padding: 24px;
+        border: 1px solid rgba(0, 220, 255, 0.2);
+        border-radius: 16px;
+        background: linear-gradient(145deg, #10283d, #091827);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .quick-stats-cards > div:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 12px 30px rgba(0, 200, 255, 0.18);
+        border-color: #00d9ff;
+      }
+
+      .quick-stats-cards > div::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, #00d9ff, #0066ff);
+      }
+
+      .quick-stats-cards h3 {
+        color: #00d9ff;
+        font-size: 28px;
+        margin-top: 12px;
+      }
+      /* ===== PREMIUM ANALYTICS DESIGN ===== */
+
+      .analytics-cards {
+        gap: 22px;
+      }
+
+      .chart-container {
+        background: linear-gradient(145deg, #10283d, #091827);
+        border: 1px solid rgba(0, 217, 255, 0.25);
+        border-radius: 18px;
+        padding: 24px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        transition: 0.3s ease;
+      }
+
+      .chart-container:hover {
+        border-color: #00d9ff;
+        box-shadow: 0 10px 30px rgba(0, 200, 255, 0.12);
+        transform: translateY(-4px);
+      }
+
+      .chart-container h3 {
+        color: #00d9ff;
+        margin-bottom: 18px;
+        font-size: 18px;
+        letter-spacing: 0.5px;
+      }
+      /* ===== PREMIUM ENQUIRY CARDS ===== */
+
+      .enquiry-summary {
+        gap: 20px;
+      }
+
+      .enquiry-summary > div {
+        background: linear-gradient(145deg, #10283d, #091827);
+        border: 1px solid rgba(0, 217, 255, 0.2);
+        border-radius: 16px;
+        padding: 22px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .enquiry-summary > div:hover {
+        transform: translateY(-5px);
+        border-color: #00d9ff;
+        box-shadow: 0 10px 25px rgba(0, 200, 255, 0.15);
+      }
+
+      .enquiry-summary h3 {
+        color: #00d9ff;
+        font-size: 25px;
+        margin-bottom: 8px;
+      }
+      /* ===== PREMIUM NOTIFICATION BELL ===== */
+
+      .notification-bell {
+        position: relative;
+        background: linear-gradient(135deg, #063b55, #087c9e);
+        border: 1px solid rgba(0, 217, 255, 0.6);
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: 0.3s ease;
+        box-shadow: 0 0 15px rgba(0, 217, 255, 0.15);
+      }
+
+      .notification-bell:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 22px rgba(0, 217, 255, 0.4);
+      }
+
+      .notification-bell i {
+        color: #ffffff;
+        font-size: 21px;
+      }
+
+      #notificationCount {
+        box-shadow: 0 0 10px rgba(255, 50, 70, 0.5);
+        animation: notificationPulse 1.5s infinite;
+      }
+
+      @keyframes notificationPulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.12);
+        }
+      }
+      /* ===== RECENT ENQUIRIES DESIGN ===== */
+
+      .enquiry-card {
+        background: linear-gradient(145deg, #10283d, #091827);
+        border: 1px solid rgba(0, 217, 255, 0.2);
+        border-radius: 14px;
+        padding: 20px;
+        margin-bottom: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .enquiry-card:hover {
+        transform: translateX(5px);
+        border-color: #00d9ff;
+        box-shadow: 0 8px 22px rgba(0, 200, 255, 0.12);
+      }
+
+      .enquiry-card h3 {
+        color: #00d9ff;
+        margin-bottom: 10px;
+      }
+
+      .enquiry-card p {
+        color: #c5d6e5;
+        line-height: 1.7;
+      }
+      /* ===== DASHBOARD SECTION HEADINGS ===== */
+
+      .dashboard-section h2,
+      .analytics-section h2,
+      .enquiries-section h2 {
+        color: #ffffff;
+        font-size: 22px;
+        font-weight: 700;
+        padding-bottom: 12px;
+        margin-bottom: 22px;
+        position: relative;
+      }
+
+      .dashboard-section h2::after,
+      .analytics-section h2::after,
+      .enquiries-section h2::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 65px;
+        height: 3px;
+        border-radius: 5px;
+        background: linear-gradient(90deg, #00d9ff, #0066ff);
+      }
+      /* ===== PROFESSIONAL DASHBOARD BACKGROUND ===== */
+
+      body {
+        background:
+          radial-gradient(
+            circle at 10% 10%,
+            rgba(0, 150, 255, 0.1),
+            transparent 35%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(0, 217, 255, 0.08),
+            transparent 35%
+          ),
+          #07111f;
+        background-attachment: fixed;
+      }
+
+      .dashboard-container {
+        position: relative;
+        z-index: 1;
+      }
+      /* ===== ADMIN NAVIGATION HOVER EFFECT ===== */
+
+      nav a,
+      .sidebar a,
+      .dashboard-nav a {
+        position: relative;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+      }
+
+      nav a:hover,
+      .sidebar a:hover,
+      .dashboard-nav a:hover {
+        color: #00d9ff;
+        background: rgba(0, 217, 255, 0.1);
+        transform: translateX(5px);
+      }
+
+      nav a.active,
+      .sidebar a.active,
+      .dashboard-nav a.active {
+        color: #00d9ff;
+        background: rgba(0, 217, 255, 0.14);
+        border-left: 3px solid #00d9ff;
+      }
+      /* ===== ACTUAL ENQUIRY CARD DESIGN ===== */
+
+      #enquiryList .enquiry {
+        background: linear-gradient(145deg, #10283d, #091827);
+        border: 1px solid rgba(0, 217, 255, 0.25);
+        border-radius: 16px;
+        padding: 24px;
+        transition: all 0.3s ease;
+      }
+
+      #enquiryList .enquiry:hover {
+        transform: translateY(-5px);
+        border-color: #00d9ff;
+        box-shadow: 0 10px 25px rgba(0, 200, 255, 0.15);
+      }
+
+      #enquiryList .enquiry h3 {
+        color: #00d9ff;
+        font-size: 21px;
+      }
+
+      #enquiryList .enquiry p {
+        color: #d5e8f0;
+        line-height: 1.7;
+      }
+      /* ===== NOTIFICATION BELL DESIGN ===== */
+
+      #notificationBtn {
+        background: linear-gradient(135deg, #063b55, #087c9e);
+        border: 1px solid rgba(0, 217, 255, 0.6);
+        box-shadow: 0 0 15px rgba(0, 217, 255, 0.15);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      #notificationBtn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 22px rgba(0, 217, 255, 0.4);
+      }
+
+      #notificationCount {
+        box-shadow: 0 0 10px rgba(255, 50, 70, 0.5);
+        animation: notificationPulse 1.5s infinite;
+      }
+      /* ===== DASHBOARD BACKGROUND GLOW ===== */
+
+      body {
+        background:
+          radial-gradient(
+            circle at 10% 10%,
+            rgba(0, 180, 255, 0.12),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(0, 100, 255, 0.12),
+            transparent 35%
+          ),
+          #07111f;
+      }
+
+      .container {
+        position: relative;
+        z-index: 1;
+      }
+      /* ===== WELCOME HEADER DESIGN ===== */
+
+      .dashboard-welcome h1 {
+        color: #eafaff;
+        text-shadow: 0 0 12px rgba(0, 217, 255, 0.35);
+        letter-spacing: 1px;
+      }
+
+      .dashboard-welcome p {
+        color: #9bbacb;
+        line-height: 1.6;
+      }
+
+      .dashboard-clock {
+        border: 1px solid rgba(0, 217, 255, 0.3);
+        box-shadow: 0 0 15px rgba(0, 217, 255, 0.1);
+      }
+      /* ===== QUICK STATISTICS CARD DESIGN ===== */
+
+      .quick-stat-card {
+        background: linear-gradient(145deg, #102b42, #091827);
+        border: 1px solid rgba(0, 217, 255, 0.25);
+        border-radius: 16px;
+        padding: 24px;
+        transition: all 0.3s ease;
+      }
+
+      .quick-stat-card:hover {
+        transform: translateY(-6px);
+        border-color: #00d9ff;
+        box-shadow: 0 10px 25px rgba(0, 217, 255, 0.18);
+      }
+
+      .quick-stat-card h3 {
+        color: #9bbacb;
+      }
+
+      .quick-stat-card p {
+        color: #00d9ff;
+        font-size: 30px;
+        font-weight: bold;
+      }
+      .quick-stat-card h3 {
+        color: #9bbacb;
+        font-size: 15px;
+        margin-bottom: 12px;
+      }
+      .notification-actions {
+        display: flex;
+        gap: 8px;
+        margin: 12px 0;
+      }
+
+      .notification-actions button.active {
+        background: #00bcd4;
+        color: #000;
+        font-weight: bold;
+      }
+      /* ===== AI TAG FUTURISTIC COMMAND CENTER ===== */
+
+      body {
+        background:
+          radial-gradient(
+            ellipse at 15% 15%,
+            rgba(0, 217, 255, 0.13),
+            transparent 35%
+          ),
+          radial-gradient(
+            ellipse at 85% 85%,
+            rgba(0, 100, 255, 0.12),
+            transparent 35%
+          ),
+          #050b16;
+        background-attachment: fixed;
+      }
+
+      .dashboard {
+        background: rgba(10, 23, 42, 0.88);
+        border: 1px solid rgba(0, 217, 255, 0.25);
+        box-shadow: 0 0 40px rgba(0, 180, 255, 0.07);
+        backdrop-filter: blur(15px);
+      }
+      .dashboard-welcome {
+        border: 1px solid rgba(0, 234, 255, 0.3);
+        background: linear-gradient(
+          135deg,
+          rgba(0, 234, 255, 0.12),
+          rgba(10, 23, 42, 0.85)
+        );
+        box-shadow: 0 0 25px rgba(0, 234, 255, 0.08);
+        backdrop-filter: blur(18px);
+      }
+      /* ===== PREMIUM CARD HOVER EFFECT ===== */
+
+      .stat-card,
+      .analytics-card,
+      .chart-container {
+        transition: all 0.35s ease;
+      }
+
+      .stat-card:hover,
+      .analytics-card:hover,
+      .chart-container:hover {
+        transform: translateY(-6px);
+        border-color: rgba(0, 234, 255, 0.6);
+        box-shadow: 0 10px 30px rgba(0, 234, 255, 0.12);
+      }
+      /* ===== ANIMATED NEON TITLE ===== */
+
+      .dashboard h1 {
+        color: #00eaff;
+        text-shadow:
+          0 0 5px rgba(0, 234, 255, 0.7),
+          0 0 15px rgba(0, 234, 255, 0.5),
+          0 0 30px rgba(0, 234, 255, 0.3);
+        animation: titleGlow 2.5s ease-in-out infinite alternate;
+      }
+
+      @keyframes titleGlow {
+        from {
+          text-shadow: 0 0 5px #00eaff;
+        }
+        to {
+          text-shadow:
+            0 0 12px #00eaff,
+            0 0 25px #00eaff,
+            0 0 40px #0077ff;
+        }
+      }
+      /* ===== ANIMATED NEON TITLE ===== */
+
+      .dashboard h1 {
+        color: #00eaff;
+        text-shadow:
+          0 0 5px rgba(0, 234, 255, 0.7),
+          0 0 15px rgba(0, 234, 255, 0.5),
+          0 0 30px rgba(0, 234, 255, 0.3);
+        animation: titleGlow 2.5s ease-in-out infinite alternate;
+      }
+
+      @keyframes titleGlow {
+        from {
+          text-shadow: 0 0 5px #00eaff;
+        }
+        to {
+          text-shadow:
+            0 0 12px #00eaff,
+            0 0 25px #00eaff,
+            0 0 40px #0077ff;
+        }
+      }
+      /* ===== AI TAG COMMAND CENTER LAYOUT ===== */
+
+      .dashboard {
+        display: grid;
+        grid-template-columns: 245px minmax(0, 1fr);
+        gap: 22px;
+        max-width: 1500px;
+        align-items: start;
+      }
+
+      .dashboard-sidebar {
+        position: sticky;
+        top: 20px;
+        min-height: 85vh;
+        padding: 28px 18px;
+        border: 1px solid rgba(0, 234, 255, 0.3);
+        border-radius: 20px;
+        background: linear-gradient(160deg, #10263b, #07111f);
+        box-shadow: 0 0 30px rgba(0, 234, 255, 0.1);
+      }
+
+      .dashboard-sidebar h2 {
+        color: #00eaff;
+        font-size: 25px;
+        letter-spacing: 3px;
+      }
+
+      .dashboard-sidebar > p {
+        color: #8ba9bd;
+        font-size: 10px;
+        letter-spacing: 3px;
+        margin: 8px 0 35px;
+      }
+
+      .dashboard-sidebar nav {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .dashboard-sidebar nav a {
+        color: #c7dce9;
+        text-decoration: none;
+        padding: 14px;
+        border-radius: 10px;
+        transition: 0.3s;
+      }
+
+      .dashboard-sidebar nav a:hover {
+        color: #00eaff;
+        background: rgba(0, 234, 255, 0.12);
+        transform: translateX(5px);
+      }
+
+      .sidebar-footer {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        color: #00eaff;
+        font-size: 12px;
+      }
+
+      .sidebar-footer small {
+        color: #8ba9bd;
+      }
+
+      .dashboard-main {
+        min-width: 0;
+      }
+      /* ===== FUTURISTIC STATISTICS CARDS ===== */
+
+      .quick-stats-cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .quick-stat-card,
+      .summary-card,
+      .analytics-card,
+      .reminder-card {
+        position: relative;
+        overflow: hidden;
+        padding: 24px;
+        border: 1px solid rgba(0, 234, 255, 0.2);
+        border-radius: 16px;
+        background: linear-gradient(
+          145deg,
+          rgba(17, 42, 65, 0.95),
+          rgba(7, 17, 31, 0.95)
+        );
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        transition: 0.35s ease;
+      }
+
+      .quick-stat-card:hover,
+      .summary-card:hover,
+      .analytics-card:hover,
+      .reminder-card:hover {
+        transform: translateY(-7px);
+        border-color: #00eaff;
+        box-shadow: 0 10px 30px rgba(0, 234, 255, 0.15);
+      }
+
+      .quick-stat-card h3,
+      .summary-card h3,
+      .analytics-card h3,
+      .reminder-card h3 {
+        color: #a9c5d8;
+        font-size: 13px;
+        margin-bottom: 15px;
+      }
+
+      .quick-stat-card p,
+      .summary-card p,
+      .analytics-card p,
+      .reminder-card p {
+        color: #00eaff;
+        font-size: 30px;
+        font-weight: bold;
+      }
+      /* ===== RESPONSIVE COMMAND CENTER ===== */
+
+      @media (max-width: 900px) {
+        .dashboard {
+          grid-template-columns: 1fr;
+        }
+
+        .dashboard-sidebar {
+          position: relative;
+          top: 0;
+          min-height: auto;
+        }
+
+        .dashboard-sidebar nav {
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+
+        .sidebar-footer {
+          margin-top: 20px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .quick-stats-cards {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .dashboard-welcome {
+          flex-wrap: wrap;
+        }
+      }
+      /* ===== COMMAND CENTER CONTENT ===== */
+
+      .dashboard-main {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      .dashboard-main > section,
+      .dashboard-main > .dashboard-welcome {
+        width: 100%;
+      }
+
+      .dashboard-main > section {
+        padding: 24px;
+        border: 1px solid rgba(0, 234, 255, 0.16);
+        border-radius: 18px;
+        background: rgba(10, 25, 45, 0.65);
+        backdrop-filter: blur(15px);
+      }
+
+      .dashboard-main > section > h2,
+      .dashboard-main > h2 {
+        color: #00eaff;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+      }
+      /* ===== COMPACT DASHBOARD ACTION BUTTONS ===== */
+
+      .dashboard-main > button {
+        display: inline-flex;
+        width: auto;
+        min-width: 130px;
+        padding: 10px 18px;
+        margin: 5px;
+        border-radius: 9px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        transition: 0.3s ease;
+      }
+
+      .dashboard-main > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 18px rgba(0, 234, 255, 0.2);
+      }
+      #dashboard .dashboard-main > button {
+        display: inline-block !important;
+        width: auto !important;
+        min-width: 130px;
+        max-width: 180px;
+        padding: 10px 16px;
+        margin: 5px;
+        font-size: 13px;
+      }
+      #dashboard .dashboard-main > button {
+        margin: 3px !important;
+        padding: 8px 12px !important;
+        min-width: 0 !important;
+        width: auto !important;
+        max-width: none !important;
+      }
+
+      #dashboard .dashboard-main {
+        gap: 16px;
+      }
+      /* ===== PREMIUM ENQUIRY FILTERS ===== */
+
+      .enquiry-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 15px 0;
+      }
+
+      .enquiry-filters button {
+        width: auto !important;
+        min-width: 90px;
+        padding: 9px 20px;
+        border: 1px solid rgba(0, 234, 255, 0.4);
+        border-radius: 50px;
+        background: rgba(0, 234, 255, 0.07);
+        color: #00eaff;
+        font-size: 13px;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      .enquiry-filters button:hover {
+        background: #00eaff;
+        color: #07111f;
+        box-shadow: 0 0 18px rgba(0, 234, 255, 0.3);
+        transform: translateY(-2px);
+      }
+      /* ===== FUTURISTIC SEARCH BAR ===== */
+
+      #searchEnquiry {
+        width: 100%;
+        max-width: 450px;
+        padding: 14px 18px;
+        border: 1px solid rgba(0, 234, 255, 0.35);
+        border-radius: 12px;
+        background: rgba(10, 25, 45, 0.85);
+        color: #ffffff;
+        font-size: 14px;
+        outline: none;
+        transition: 0.3s ease;
+      }
+
+      #searchEnquiry:focus {
+        border-color: #00eaff;
+        box-shadow: 0 0 18px rgba(0, 234, 255, 0.15);
+      }
+
+      #searchEnquiry::placeholder {
+        color: #829caf;
+      }
+      /* ===== ENQUIRY SUMMARY CARDS ===== */
+
+      .enquiry-summary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin: 20px 0;
+      }
+
+      .enquiry-summary .summary-card {
+        padding: 22px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #102d45, #091728);
+        border: 1px solid rgba(0, 234, 255, 0.25);
+        transition: 0.3s ease;
+      }
+
+      .enquiry-summary .summary-card:hover {
+        transform: translateY(-5px);
+        border-color: #00eaff;
+      }
+
+      @media (max-width: 600px) {
+        .enquiry-summary {
+          grid-template-columns: 1fr;
+        }
+      }
+      /* ===== FUTURISTIC ANALYTICS PANELS ===== */
+
+      .chart-container {
+        position: relative;
+        padding: 25px;
+        margin: 20px 0;
+        border: 1px solid rgba(0, 234, 255, 0.25);
+        border-radius: 20px;
+        background: linear-gradient(
+          145deg,
+          rgba(15, 38, 60, 0.95),
+          rgba(5, 15, 29, 0.95)
+        );
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+        transition: 0.3s ease;
+      }
+
+      .chart-container:hover {
+        border-color: #00eaff;
+        box-shadow: 0 0 25px rgba(0, 234, 255, 0.12);
+      }
+
+      .chart-container h2 {
+        color: #00eaff;
+        font-size: 17px;
+        margin-bottom: 20px;
+      }
+      /* ===== ANALYTICS CHART ALIGNMENT ===== */
+
+      .chart-container {
+        width: 100%;
+        min-height: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .chart-container canvas {
+        width: 100% !important;
+        max-height: 280px;
+      }
+
+      #analyticsDashboard {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      /* ===== FUTURISTIC CUSTOMER ENQUIRY CARDS ===== */
+
+      .enquiry {
+        position: relative;
+        padding: 24px;
+        margin: 18px 0;
+        border: 1px solid rgba(0, 234, 255, 0.22);
+        border-radius: 18px;
+        background: linear-gradient(145deg, #10263b, #07111f);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        transition: 0.35s ease;
+      }
+
+      .enquiry:hover {
+        transform: translateY(-4px);
+        border-color: #00eaff;
+        box-shadow: 0 10px 30px rgba(0, 234, 255, 0.12);
+      }
+
+      .enquiry h3 {
+        color: #00eaff;
+        margin-bottom: 12px;
+      }
+
+      .enquiry p {
+        color: #c3d7e5;
+        line-height: 1.8;
+      }
+      /* ===== AI TAG NOTIFICATION CENTER ===== */
+
+      .notification-popup {
+        min-width: 320px;
+        max-width: 380px;
+        padding: 20px;
+        border: 1px solid rgba(0, 234, 255, 0.4);
+        border-radius: 18px;
+        background: linear-gradient(145deg, #102a42, #07111f);
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(20px);
+        z-index: 1000;
+      }
+
+      .notification-popup h3 {
+        color: #00eaff;
+        margin-bottom: 18px;
+      }
+
+      .notification-item {
+        padding: 14px;
+        margin-bottom: 10px;
+        border: 1px solid rgba(0, 234, 255, 0.15);
+        border-radius: 12px;
+        background: rgba(0, 234, 255, 0.05);
+        transition: 0.3s ease;
+      }
+
+      .notification-item:hover {
+        border-color: #00eaff;
+        background: rgba(0, 234, 255, 0.1);
+      }
+      /* ===== SMART REMINDER CENTER ===== */
+
+      .reminder-cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .reminder-card:nth-child(1) {
+        border-left: 4px solid #ff5252;
+      }
+
+      .reminder-card:nth-child(2) {
+        border-left: 4px solid #ffbf47;
+      }
+
+      .reminder-card:nth-child(3) {
+        border-left: 4px solid #00eaff;
+      }
+
+      .reminder-card p {
+        font-size: 32px;
+        font-weight: bold;
+      }
+
+      #followUpList {
+        margin-top: 22px;
+      }
+
+      @media (max-width: 600px) {
+        .reminder-cards {
+          grid-template-columns: 1fr;
+        }
+      }
+      /* ===== SMART REMINDER LIST ===== */
+
+      #followUpList > div {
+        padding: 18px;
+        margin: 12px 0;
+        border: 1px solid rgba(0, 234, 255, 0.2);
+        border-radius: 14px;
+        background: linear-gradient(135deg, #10263b, #091525);
+        transition: 0.3s ease;
+      }
+
+      #followUpList > div:hover {
+        border-color: #00eaff;
+        transform: translateX(5px);
+        box-shadow: 0 5px 20px rgba(0, 234, 255, 0.1);
+      }
+
+      #followUpList p {
+        color: #c3d7e5;
+        line-height: 1.8;
+      }
+      /* ===== DASHBOARD LOGIN VISIBILITY FIX ===== */
+
+      .dashboard.hidden {
+        display: none !important;
+      }
+      /* ===== LIVE VISITOR ACTIVITY ===== */
+
+      #liveActivityMonitor {
+        padding: 25px;
+        margin: 20px 0;
+        border: 1px solid rgba(0, 234, 255, 0.3);
+        border-radius: 18px;
+        background: linear-gradient(145deg, #10263b, #07111f);
+      }
+
+      .activity-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 22px;
+      }
+
+      .activity-heading h2 {
+        color: #00eaff;
+      }
+
+      .activity-heading p {
+        color: #9bb9ca;
+        margin-top: 7px;
+        font-size: 13px;
+      }
+
+      .live-indicator {
+        color: #00ff99;
+        font-size: 12px;
+        font-weight: bold;
+        animation: livePulse 1.5s infinite;
+      }
+
+      .live-activity-item {
+        padding: 16px;
+        margin-bottom: 12px;
+        border: 1px solid rgba(0, 234, 255, 0.18);
+        border-radius: 12px;
+        background: rgba(0, 234, 255, 0.05);
+      }
+
+      .live-activity-item p {
+        color: #ffffff;
+        margin-bottom: 8px;
+      }
+
+      .live-activity-item span {
+        color: #00ff99;
+        font-size: 12px;
+      }
+
+      @keyframes livePulse {
+        50% {
+          opacity: 0.4;
+        }
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      #liveActivityMonitor {
+        scroll-margin-top: 25px;
+      }
+      #liveActivityMonitor {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0, 234, 255, 0.5);
+        box-shadow:
+          0 0 15px rgba(0, 234, 255, 0.12),
+          inset 0 0 20px rgba(0, 234, 255, 0.04);
+      }
+
+      #liveActivityMonitor::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 2px;
+        background: #00eaff;
+        animation: trackingScan 4s linear infinite;
+      }
+
+      @keyframes trackingScan {
+        to {
+          left: 150%;
+        }
+      }
+      .live-activity-item p:first-child {
+        color: #00eaff;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+      }
+
+      .live-activity-item p:nth-child(2) {
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 600;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>AI TAGS INNOVATION</h1>
+
+      <p>Admin Dashboard</p>
+
+      <div class="login-box" id="loginBox">
+        <h2>Admin Login</h2>
+
+        <form id="loginForm">
+          <input type="text" id="username" placeholder="Username" required />
+
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+
+          <button type="submit">Login</button>
+        </form>
+
+        <p id="message"></p>
+      </div>
+
+      <div class="dashboard hidden" id="dashboard">
+        <aside class="dashboard-sidebar">
+          <h2>AI TAG</h2>
+          <p>COMMAND CENTER</p>
+
+          <nav>
+            <a href="#quickStatistics">⌂ Overview</a>
+            <a href="#enquiryList">♧ Enquiries</a>
+            <a href="#followUpDashboard">◷ Reminders</a>
+            <a href="#analyticsDashboard">▦ Analytics</a>
+            <a href="#liveActivityMonitor">📡 Live Tracking</a>
+          </nav>
+
+          <div class="sidebar-footer">
+            <span>AI TAG INNOVATION</span>
+            <small>Business Management System</small>
+          </div>
+        </aside>
+
+        <main class="dashboard-main">
+          <div class="dashboard-welcome">
+            <div>
+              <h2>Welcome to AI TAG INNOVATION</h2>
+              <p>Manage your business enquiries and track your progress.</p>
+            </div>
+            <div class="dashboard-clock">
+              <span id="currentDate">Loading date...</span>
+              <span id="currentTime">Loading time...</span>
+            </div>
+            <div class="notification-wrapper">
+              <button type="button" id="notificationBtn">
+                🔔
+                <span id="notificationCount">0</span>
+              </button>
+
+              <div id="notificationPopup" class="notification-popup hidden">
+                <h3>Notifications</h3>
+
+                <div class="notification-actions">
+                  <button type="button" id="showNewNotificationsBtn">
+                    New
+                  </button>
+
+                  <button type="button" id="showNotificationHistoryBtn">
+                    History
+                  </button>
+
+                  <button type="button" id="clearNotificationsBtn">
+                    Clear All
+                  </button>
+                </div>
+
+                <div id="notificationList">
+                  <p>No new enquiries.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <section id="quickStatistics">
+            <h2>Quick Statistics</h2>
+
+            <div class="quick-stats-cards">
+              <div class="quick-stat-card">
+                <h3>Total Enquiries</h3>
+                <p id="quickTotalCount">0</p>
+              </div>
+
+              <div class="quick-stat-card">
+                <h3>Pending Enquiries</h3>
+                <p id="quickPendingCount">0</p>
+              </div>
+
+              <div class="quick-stat-card">
+                <h3>Completed Enquiries</h3>
+                <p id="quickCompletedCount">0</p>
+              </div>
+
+              <div class="quick-stat-card">
+                <h3>Completion Rate</h3>
+                <p id="quickCompletionRate">0%</p>
+              </div>
+              <div class="quick-stat-card">
+                <h3>Total Website Visits</h3>
+                <p id="quickTotalVisits">0</p>
+              </div>
+
+              <div class="quick-stat-card">
+                <h3>Unique Visitors</h3>
+                <p id="quickUniqueVisitors">0</p>
+              </div>
+              <div class="quick-stat-card">
+                <h3>Today's Visits</h3>
+                <p id="todayVisits">0</p>
+              </div>
+
+              <div class="quick-stat-card">
+                <h3>Yesterday's Visits</h3>
+                <p id="yesterdayVisits">0</p>
+              </div>
+
+              <div class="quick-stat-card">
+                <h3>Traffic Growth</h3>
+                <p id="visitorGrowth">0%</p>
+              </div>
+            </div>
+          </section>
+          <section id="liveActivityMonitor">
+            <div class="activity-heading">
+              <div>
+                <h2>Live Visitor Activity</h2>
+                <p>Monitor your website visitors in real time</p>
+              </div>
+
+              <span class="live-indicator">● LIVE</span>
+            </div>
+
+            <div id="liveActivityList">
+              <p>Waiting for visitor activity...</p>
+            </div>
+          </section>
+          <h2>Customer Enquiries</h2>
+          <section id="followUpDashboard">
+            <h2>Follow-up Reminder Center</h2>
+
+            <div class="reminder-cards">
+              <div class="reminder-card">
+                <h3>Overdue</h3>
+                <p id="overdueCount">0</p>
+              </div>
+
+              <div class="reminder-card">
+                <h3>Today</h3>
+                <p id="todayCount">0</p>
+              </div>
+
+              <div class="reminder-card">
+                <h3>Upcoming</h3>
+                <p id="upcomingCount">0</p>
+              </div>
+            </div>
+
+            <div id="followUpList"></div>
+          </section>
+          <button onclick="refreshEnquiries()">Refresh Enquiries</button>
+          <button onclick="exportToExcel()">Export to Excel</button>
+          <button onclick="logoutAdmin()">Logout</button>
+          <div class="enquiry-filters">
+            <button onclick="filterEnquiries('All')">All</button>
+            <button onclick="filterEnquiries('Civil')">Civil</button>
+            <button onclick="filterEnquiries('Software')">Software</button>
+          </div>
+          <input
+            type="text"
+            id="searchEnquiry"
+            placeholder="Search by name, phone or service..."
+            oninput="searchEnquiries()"
+          />
+          <div class="enquiry-summary">
+            <div class="summary-card">
+              <h3>Total Enquiries</h3>
+              <p id="enquiryCount">Total Enquiries: 0</p>
+            </div>
+
+            <div class="summary-card">
+              <h3>Civil Enquiries</h3>
+              <p id="civilCount">Civil Enquiries: 0</p>
+            </div>
+
+            <div class="summary-card">
+              <h3>Software Enquiries</h3>
+              <p id="softwareCount">Software Enquiries: 0</p>
+            </div>
+          </div>
+          <section id="analyticsDashboard">
+            <h2>Business Analytics</h2>
+
+            <div class="analytics-cards">
+              <div class="analytics-card">
+                <h3>Pending Enquiries</h3>
+                <p id="pendingAnalytics">0</p>
+              </div>
+
+              <div class="analytics-card">
+                <h3>Contacted</h3>
+                <p id="contactedAnalytics">0</p>
+              </div>
+
+              <div class="analytics-card">
+                <h3>In Progress</h3>
+                <p id="progressAnalytics">0</p>
+              </div>
+
+              <div class="analytics-card">
+                <h3>Completed</h3>
+                <p id="completedAnalytics">0</p>
+              </div>
+              <div class="completion-progress">
+                <h3>Completed Enquiries Progress</h3>
+                <div class="progress-track">
+                  <div id="completionProgressBar" class="progress-fill"></div>
+                </div>
+                <p id="completionProgressText">0% Completed</p>
+              </div>
+            </div>
+            <div class="chart-container">
+              <h2>Enquiry Status Overview</h2>
+              <canvas id="statusChart"></canvas>
+            </div>
+            <div class="chart-container">
+              <h2>Monthly Enquiry Growth</h2>
+              <canvas id="monthlyEnquiryChart"></canvas>
+            </div>
+            <div class="chart-container">
+              <h2>Daily Visitor Growth (Last 7 Days)</h2>
+              <canvas id="dailyVisitorChart"></canvas>
+            </div>
+          </section>
+          <div id="enquiryList"></div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      let allEnquiries = [];
+      let previousEnquiryCount = 0;
+      let isFirstEnquiryLoad = true;
+      let knownEnquiryIds = new Set();
+      let newNotifications = [];
+      let notificationView = "new";
+      let readNotificationIds = new Set();
+      const NOTIFICATION_IDS_KEY = "aitagNotificationIds";
+      const READ_NOTIFICATION_IDS_KEY = "aitagReadNotificationIds";
+      let savedNotificationIds = new Set(
+        JSON.parse(localStorage.getItem(NOTIFICATION_IDS_KEY) || "[]"),
+      );
+
+      readNotificationIds = new Set(
+        JSON.parse(localStorage.getItem(READ_NOTIFICATION_IDS_KEY) || "[]"),
+      );
+      let unreadNotificationCount = 0;
+      // Visitor Notifications
+      let newVisitorNotifications = [];
+      let knownVisitorIds = new Set();
+      let readVisitorNotificationIds = new Set();
+      let unreadVisitorNotificationCount = 0;
+      let isFirstVisitorLoad = true;
+
+      const VISITOR_NOTIFICATION_IDS_KEY = "aitagVisitorNotificationIds";
+      const READ_VISITOR_NOTIFICATION_IDS_KEY =
+        "aitagReadVisitorNotificationIds";
+
+      let savedVisitorNotificationIds = new Set(
+        JSON.parse(localStorage.getItem(VISITOR_NOTIFICATION_IDS_KEY) || "[]"),
+      );
+
+      readVisitorNotificationIds = new Set(
+        JSON.parse(
+          localStorage.getItem(READ_VISITOR_NOTIFICATION_IDS_KEY) || "[]",
+        ),
+      );
+      let enquiryRefreshInterval = null;
+      let statusChart = null;
+      let monthlyEnquiryChart = null;
+      let dailyVisitorChart = null;
+      const loginForm = document.getElementById("loginForm");
+
+      function searchEnquiries() {
+        const searchValue = document
+          .getElementById("searchEnquiry")
+          .value.trim()
+          .toLowerCase();
+
+        const cards = document.querySelectorAll(".enquiry");
+        let firstMatch = null;
+
+        cards.forEach(function (card) {
+          const enquiryText = card.textContent.toLowerCase();
+
+          if (enquiryText.includes(searchValue)) {
+            card.style.display = "";
+
+            if (!firstMatch) {
+              firstMatch = card;
+            }
+          } else {
+            card.style.display = "none";
+          }
+        });
+
+        if (searchValue && firstMatch) {
+          firstMatch.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      }
+      function filterEnquiries(category) {
+        const cards = document.querySelectorAll(".enquiry");
+        let firstMatch = null;
+
+        cards.forEach(function (card) {
+          const serviceText = card.textContent.toLowerCase();
+
+          const civilServices = [
+            "civil construction",
+            "interior designing",
+            "2d & 3d floor plans",
+            "construction consulting",
+          ];
+
+          const isCivil = civilServices.some((service) =>
+            serviceText.includes(service),
+          );
+
+          const isVisible =
+            category === "All" ||
+            (category === "Civil" && isCivil) ||
+            (category === "Software" && !isCivil);
+
+          card.style.display = isVisible ? "" : "none";
+
+          if (isVisible && !firstMatch) {
+            firstMatch = card;
+          }
+        });
+
+        if (firstMatch) {
+          firstMatch.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }
+
+      async function refreshEnquiries() {
+        try {
+          await loadEnquiries();
+          document.getElementById("message").textContent =
+            "Enquiries refreshed successfully.";
+        } catch (error) {
+          document.getElementById("message").textContent =
+            "Unable to refresh enquiries. Please login again.";
+        }
+      }
+
+      async function logoutAdmin() {
+        try {
+          await getCsrfToken();
+
+          const response = await fetch(`${API_BASE}/api/auth/logout`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "X-CSRF-TOKEN": csrfToken,
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error("Logout failed");
+          }
+          if (enquiryRefreshInterval) {
+            clearInterval(enquiryRefreshInterval);
+            enquiryRefreshInterval = null;
+          }
+          document.getElementById("dashboard").classList.add("hidden");
+
+          // Notification reset
+          knownEnquiryIds.clear();
+          newNotifications = [];
+          unreadNotificationCount = 0;
+          isFirstEnquiryLoad = true;
+
+          updateNotificationBadge();
+          document.getElementById("notificationPopup").classList.add("hidden");
+          document.getElementById("notificationList").innerHTML =
+            "<p>No new enquiries.</p>";
+
+          document.getElementById("loginBox").classList.remove("hidden");
+          document.getElementById("loginForm").reset();
+          document.getElementById("enquiryList").innerHTML = "";
+
+          document.getElementById("enquiryCount").textContent =
+            "Total Enquiries: 0";
+          document.getElementById("civilCount").textContent =
+            "Civil Enquiries: 0";
+          document.getElementById("softwareCount").textContent =
+            "Software Enquiries: 0";
+
+          document.getElementById("message").textContent =
+            "You have logged out.";
+        } catch (error) {
+          document.getElementById("message").textContent =
+            "Logout failed. Please try again.";
+        }
+      }
+
+      const API_BASE = "http://127.0.0.1:8080";
+      let csrfToken = "";
+
+      async function getCsrfToken() {
+        const response = await fetch(`${API_BASE}/api/auth/csrf`, {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          throw new Error("Could not get CSRF token");
+        }
+
+        csrfToken = await response.text();
+      }
+      loginForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        try {
+          await getCsrfToken();
+
+          const loginResponse = await fetch(`${API_BASE}/api/auth/login`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRF-TOKEN": csrfToken,
+            },
+            body: JSON.stringify({ username, password }),
+          });
+
+          if (!loginResponse.ok) {
+            throw new Error("Login failed");
+          }
+
+          await loadEnquiries();
+          await loadRecentVisitorNotifications();
+          await loadVisitorAnalytics();
+          await loadDailyVisitorAnalytics();
+          await loadVisitorComparison();
+          document.getElementById("loginBox").classList.add("hidden");
+          document.getElementById("dashboard").classList.remove("hidden");
+
+          if (enquiryRefreshInterval) {
+            clearInterval(enquiryRefreshInterval);
+          }
+
+          enquiryRefreshInterval = setInterval(async () => {
+            if (
+              !document.getElementById("dashboard").classList.contains("hidden")
+            ) {
+              try {
+                await loadEnquiries();
+                await loadRecentVisitorNotifications();
+                await loadVisitorAnalytics();
+                await loadDailyVisitorAnalytics();
+                await loadVisitorComparison();
+              } catch (error) {
+                console.error("Live dashboard refresh failed:", error);
+              }
+            }
+          }, 10000);
+
+          document.getElementById("message").textContent = "";
+        } catch (error) {
+          document.getElementById("message").textContent =
+            "Login failed. Check your username and password.";
+        }
+      });
+      async function loadVisitorAnalytics() {
+        try {
+          const response = await fetch(`${API_BASE}/api/visitors/analytics`, {
+            credentials: "include",
+          });
+
+          if (!response.ok) {
+            throw new Error("Could not load visitor analytics");
+          }
+
+          const data = await response.json();
+
+          document.getElementById("quickTotalVisits").textContent =
+            data.totalVisits;
+
+          document.getElementById("quickUniqueVisitors").textContent =
+            data.uniqueVisitors;
+        } catch (error) {
+          console.error("Visitor analytics error:", error);
+        }
+      }
+      function updateNotificationBadge() {
+        const totalUnread =
+          unreadNotificationCount + unreadVisitorNotificationCount;
+
+        document.getElementById("notificationCount").textContent = totalUnread;
+      }
+      function renderLiveActivity(visitors) {
+        const activityList = document.getElementById("liveActivityList");
+
+        if (!activityList) return;
+
+        if (visitors.length === 0) {
+          activityList.innerHTML = "<p>No recent visitor activity.</p>";
+          return;
+        }
+
+        activityList.innerHTML = "";
+
+        visitors.slice(0, 10).forEach((visitor) => {
+          const visitorId = document.createElement("p");
+          visitorId.textContent = "Visitor ID: " + (visitor.id || "Unknown");
+          const item = document.createElement("div");
+          item.className = "live-activity-item";
+
+          const page = document.createElement("p");
+          const pageName =
+            visitor.pagePath === "/index.html" || visitor.pagePath === "/"
+              ? "Home Page"
+              : visitor.pagePath === "/civil.html"
+                ? "Civil Services"
+                : visitor.pagePath === "/software.html"
+                  ? "Software Services"
+                  : visitor.pagePath || "Unknown";
+
+          page.textContent = "Page: " + pageName;
+          const time = document.createElement("p");
+          time.textContent =
+            "Visited: " +
+            (visitor.visitedAt
+              ? new Date(visitor.visitedAt).toLocaleString()
+              : "Time unavailable");
+
+          const status = document.createElement("span");
+          status.textContent = "● Website Visit Recorded";
+          const device = document.createElement("p");
+          device.textContent = "Device: " + (visitor.deviceType || "Unknown");
+
+          const browser = document.createElement("p");
+          browser.textContent = "Browser: " + (visitor.browser || "Unknown");
+
+          const os = document.createElement("p");
+          os.textContent =
+            "Operating System: " + (visitor.operatingSystem || "Unknown");
+          item.appendChild(visitorId);
+          item.appendChild(page);
+          item.appendChild(status);
+          item.appendChild(time);
+          item.appendChild(device);
+          item.appendChild(browser);
+          item.appendChild(os);
+          activityList.appendChild(item);
+        });
+      }
+      async function loadRecentVisitorNotifications() {
+        try {
+          const response = await fetch(`${API_BASE}/api/visitors/recent`, {
+            credentials: "include",
+          });
+
+          if (!response.ok) {
+            throw new Error("Could not load recent visitors");
+          }
+
+          const visitors = await response.json();
+          renderLiveActivity(visitors);
+
+          if (isFirstVisitorLoad) {
+            visitors.forEach((visitor) => {
+              knownVisitorIds.add(String(visitor.id));
+            });
+
+            newVisitorNotifications = visitors.filter((visitor) =>
+              savedVisitorNotificationIds.has(String(visitor.id)),
+            );
+
+            unreadVisitorNotificationCount = newVisitorNotifications.filter(
+              (visitor) => !readVisitorNotificationIds.has(String(visitor.id)),
+            ).length;
+
+            isFirstVisitorLoad = false;
+            updateNotificationBadge();
+            return;
+          }
+
+          const incomingVisitors = visitors.filter(
+            (visitor) => !knownVisitorIds.has(String(visitor.id)),
+          );
+
+          incomingVisitors.forEach((visitor) => {
+            knownVisitorIds.add(String(visitor.id));
+            newVisitorNotifications.unshift(visitor);
+            savedVisitorNotificationIds.add(String(visitor.id));
+            unreadVisitorNotificationCount++;
+          });
+
+          if (incomingVisitors.length > 0) {
+            localStorage.setItem(
+              VISITOR_NOTIFICATION_IDS_KEY,
+              JSON.stringify([...savedVisitorNotificationIds]),
+            );
+
+            const sound = document.getElementById("notificationSound");
+            sound.currentTime = 0;
+            sound.play().catch((error) => {
+              console.log("Visitor notification sound could not play:", error);
+            });
+          }
+          updateNotificationBadge();
+        } catch (error) {
+          console.error("Recent visitor notification error:", error);
+        }
+      }
+      async function loadVisitorComparison() {
+        try {
+          const response = await fetch(`${API_BASE}/api/visitors/comparison`, {
+            credentials: "include",
+          });
+
+          if (!response.ok) {
+            throw new Error("Could not load visitor comparison");
+          }
+
+          const data = await response.json();
+
+          document.getElementById("todayVisits").textContent = data.todayVisits;
+
+          document.getElementById("yesterdayVisits").textContent =
+            data.yesterdayVisits;
+
+          const growth = data.growthPercentage;
+
+          const growthElement = document.getElementById("visitorGrowth");
+
+          const arrow = growth > 0 ? "▲" : growth < 0 ? "▼" : "●";
+
+          growthElement.innerHTML = `${arrow} ${growth > 0 ? "+" : ""}${growth}%`;
+
+          growthElement.style.color =
+            growth > 0 ? "#00ff99" : growth < 0 ? "#ff5c5c" : "#ffffff";
+
+          growthElement.style.color =
+            growth > 0 ? "#00ff99" : growth < 0 ? "#ff5c5c" : "#ffffff";
+        } catch (error) {
+          console.error("Visitor comparison error:", error);
+        }
+      }
+      async function loadDailyVisitorAnalytics() {
+        try {
+          const response = await fetch(`${API_BASE}/api/visitors/daily`, {
+            credentials: "include",
+          });
+
+          if (!response.ok) {
+            throw new Error("Could not load daily visitor analytics");
+          }
+
+          const data = await response.json();
+
+          const labels = [];
+          const visitCounts = [];
+
+          for (let i = 6; i >= 0; i--) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+
+            const dateKey = [
+              date.getFullYear(),
+              String(date.getMonth() + 1).padStart(2, "0"),
+              String(date.getDate()).padStart(2, "0"),
+            ].join("-");
+
+            labels.push(dateKey);
+
+            const dayData = data.find((item) => item.date === dateKey);
+            visitCounts.push(dayData ? dayData.visits : 0);
+          }
+
+          const ctx = document.getElementById("dailyVisitorChart");
+
+          if (dailyVisitorChart) {
+            dailyVisitorChart.destroy();
+          }
+
+          dailyVisitorChart = new Chart(ctx, {
+            type: "line",
+
+            data: {
+              labels: labels,
+
+              datasets: [
+                {
+                  label: "Website Visits",
+                  data: visitCounts,
+
+                  borderColor: "#00eaff",
+                  borderWidth: 3,
+
+                  backgroundColor: (context) => {
+                    const chart = context.chart;
+                    const { ctx, chartArea } = chart;
+
+                    if (!chartArea) return "rgba(0, 234, 255, 0.15)";
+
+                    const gradient = ctx.createLinearGradient(
+                      0,
+                      chartArea.top,
+                      0,
+                      chartArea.bottom,
+                    );
+
+                    gradient.addColorStop(0, "rgba(0, 234, 255, 0.35)");
+                    gradient.addColorStop(1, "rgba(0, 234, 255, 0.01)");
+
+                    return gradient;
+                  },
+
+                  fill: true,
+                  tension: 0.45,
+
+                  pointRadius: 5,
+                  pointHoverRadius: 9,
+                  pointBackgroundColor: "#00eaff",
+                  pointBorderColor: "#ffffff",
+                  pointBorderWidth: 2,
+                },
+              ],
+            },
+
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+
+              animation: {
+                duration: 1500,
+                easing: "easeInOutQuart",
+              },
+
+              interaction: {
+                intersect: false,
+                mode: "index",
+              },
+
+              plugins: {
+                legend: {
+                  labels: {
+                    color: "#ffffff",
+                    usePointStyle: true,
+                  },
+                },
+
+                tooltip: {
+                  backgroundColor: "#101f32",
+                  titleColor: "#00eaff",
+                  bodyColor: "#ffffff",
+                  borderColor: "#00eaff",
+                  borderWidth: 1,
+                  padding: 12,
+                  displayColors: false,
+                  callbacks: {
+                    label: function (context) {
+                      return " Website Visits: " + context.parsed.y;
+                    },
+                  },
+                },
+              },
+
+              scales: {
+                x: {
+                  ticks: {
+                    color: "#ffffff",
+                  },
+                  grid: {
+                    display: false,
+                  },
+                },
+
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    color: "#ffffff",
+                    precision: 0,
+                  },
+                  grid: {
+                    color: "rgba(255,255,255,0.08)",
+                  },
+                },
+              },
+            },
+          });
+        } catch (error) {
+          console.error("Daily visitor analytics error:", error);
+        }
+      }
+      async function loadEnquiries() {
+        const response = await fetch(`${API_BASE}/api/enquiries`, {
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          throw new Error("Could not load enquiries");
+        }
+
+        const enquiries = await response.json();
+
+        if (isFirstEnquiryLoad) {
+          newNotifications = enquiries.filter((item) =>
+            savedNotificationIds.has(String(item.id)),
+          );
+
+          enquiries.forEach((item) => {
+            knownEnquiryIds.add(String(item.id));
+          });
+
+          isFirstEnquiryLoad = false;
+        } else {
+          const incomingEnquiries = enquiries.filter(
+            (item) => !knownEnquiryIds.has(String(item.id)),
+          );
+
+          incomingEnquiries.forEach((item) => {
+            knownEnquiryIds.add(String(item.id));
+            newNotifications.unshift(item);
+            savedNotificationIds.add(String(item.id));
+
+            localStorage.setItem(
+              NOTIFICATION_IDS_KEY,
+              JSON.stringify([...savedNotificationIds]),
+            );
+            unreadNotificationCount++;
+          });
+          if (incomingEnquiries.length > 0) {
+            const sound = document.getElementById("notificationSound");
+
+            sound.currentTime = 0;
+
+            sound.play().catch((error) => {
+              console.log("Notification sound could not play:", error);
+            });
+          }
+        }
+
+        unreadNotificationCount = newNotifications.filter(
+          (item) => !readNotificationIds.has(String(item.id)),
+        ).length;
+
+        updateNotificationBadge();
+        allEnquiries = enquiries;
+        // Calculate enquiry status counts
+        const pendingCount = enquiries.filter(
+          (item) => item.status === "PENDING",
+        ).length;
+
+        const contactedCount = enquiries.filter(
+          (item) => item.status === "CONTACTED",
+        ).length;
+
+        const progressCount = enquiries.filter(
+          (item) => item.status === "IN_PROGRESS",
+        ).length;
+
+        const completedCount = enquiries.filter(
+          (item) => item.status === "COMPLETED",
+        ).length;
+
+        const totalCount = enquiries.length;
+
+        const completionPercentage =
+          totalCount === 0
+            ? 0
+            : Math.round((completedCount / totalCount) * 100);
+        document.getElementById("quickTotalCount").textContent = totalCount;
+
+        document.getElementById("quickPendingCount").textContent = pendingCount;
+
+        document.getElementById("quickCompletedCount").textContent =
+          completedCount;
+
+        document.getElementById("quickCompletionRate").textContent =
+          completionPercentage + "%";
+        document.getElementById("completionProgressBar").style.width =
+          completionPercentage + "%";
+
+        document.getElementById("completionProgressText").textContent =
+          completionPercentage + "% Completed";
+
+        // Display analytics
+        document.getElementById("pendingAnalytics").textContent = pendingCount;
+
+        document.getElementById("contactedAnalytics").textContent =
+          contactedCount;
+
+        document.getElementById("progressAnalytics").textContent =
+          progressCount;
+
+        document.getElementById("completedAnalytics").textContent =
+          completedCount;
+        // Create Status Distribution Chart
+        const chartCanvas = document.getElementById("statusChart");
+
+        if (statusChart) {
+          statusChart.destroy();
+        }
+
+        statusChart = new Chart(chartCanvas, {
+          type: "doughnut",
+          data: {
+            labels: ["Pending", "Contacted", "In Progress", "Completed"],
+            datasets: [
+              {
+                data: [
+                  pendingCount,
+                  contactedCount,
+                  progressCount,
+                  completedCount,
+                ],
+                backgroundColor: ["#ffad33", "#3498db", "#a879e8", "#35c979"],
+                borderColor: "#101f32",
+                borderWidth: 4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  color: "#ffffff",
+                  padding: 20,
+                },
+              },
+            },
+          },
+        });
+        const monthlyLabels = [];
+        const monthlyCounts = [];
+        const currentDate = new Date();
+
+        for (let i = 5; i >= 0; i--) {
+          const monthDate = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth() - i,
+            1,
+          );
+
+          monthlyLabels.push(
+            monthDate.toLocaleString("en-IN", { month: "short" }),
+          );
+
+          const count = enquiries.filter((item) => {
+            if (!item.enquiryDate) return false;
+
+            const enquiryDate = new Date(item.enquiryDate);
+
+            return (
+              !isNaN(enquiryDate.getTime()) &&
+              enquiryDate.getMonth() === monthDate.getMonth() &&
+              enquiryDate.getFullYear() === monthDate.getFullYear()
+            );
+          }).length;
+
+          monthlyCounts.push(count);
+        }
+
+        if (monthlyEnquiryChart) {
+          monthlyEnquiryChart.destroy();
+        }
+
+        monthlyEnquiryChart = new Chart(
+          document.getElementById("monthlyEnquiryChart"),
+          {
+            type: "line",
+            data: {
+              labels: monthlyLabels,
+              datasets: [
+                {
+                  label: "Monthly Enquiries",
+                  data: monthlyCounts,
+                  borderColor: "#00e5ff",
+                  backgroundColor: "rgba(0, 229, 255, 0.15)",
+                  fill: true,
+                  tension: 0.4,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  labels: { color: "#ffffff" },
+                },
+              },
+              scales: {
+                x: {
+                  ticks: { color: "#ffffff" },
+                },
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    color: "#ffffff",
+                    precision: 0,
+                  },
+                },
+              },
+            },
+          },
+        );
+        renderFollowUpDashboard();
+
+        document.getElementById("enquiryCount").textContent = enquiries.length;
+
+        const civilServices = [
+          "Civil Construction",
+          "Interior Designing",
+          "2D & 3D Floor Plans",
+          "Construction Consulting",
+        ];
+
+        const civilTotal = enquiries.filter((item) =>
+          civilServices.includes(item.serviceType),
+        ).length;
+
+        document.getElementById("civilCount").textContent = civilTotal;
+
+        document.getElementById("softwareCount").textContent =
+          enquiries.length - civilTotal;
+
+        const enquiryList = document.getElementById("enquiryList");
+        enquiryList.innerHTML = "";
+
+        enquiries.forEach((item) => {
+          const card = document.createElement("div");
+          card.className = "enquiry";
+          card.id = `enquiry-${item.id}`;
+
+          const name = document.createElement("h3");
+          name.textContent = item.customerName;
+
+          const phone = document.createElement("p");
+          phone.textContent = "Phone: " + item.phoneNumber;
+
+          const service = document.createElement("p");
+          service.textContent = "Service: " + item.serviceType;
+          const date = document.createElement("p");
+          date.textContent =
+            "Enquiry Date: " +
+            (item.enquiryDate
+              ? new Date(item.enquiryDate).toLocaleString()
+              : "Not available");
+          const details = document.createElement("p");
+          details.textContent = "Details: " + item.projectDetails;
+          const deleteButton = document.createElement("button");
+          deleteButton.textContent = "Delete";
+          deleteButton.onclick = function () {
+            deleteEnquiry(item.id);
+          };
+          const followUpLabel = document.createElement("label");
+          followUpLabel.textContent = "Follow-up Date: ";
+
+          const followUpInput = document.createElement("input");
+          followUpInput.type = "date";
+          followUpInput.value = item.followUpDate || "";
+
+          followUpInput.onchange = function () {
+            updateFollowUpDate(item.id, followUpInput.value);
+          };
+          const statusLabel = document.createElement("label");
+          statusLabel.textContent = "Enquiry Status: ";
+
+          const statusSelect = document.createElement("select");
+
+          const statuses = ["PENDING", "CONTACTED", "IN_PROGRESS", "COMPLETED"];
+
+          statuses.forEach(function (status) {
+            const option = document.createElement("option");
+            option.value = status;
+            option.textContent = status.replace("_", " ");
+            statusSelect.appendChild(option);
+          });
+          statusSelect.value = item.status || "PENDING";
+
+          const statusColorClasses = {
+            PENDING: "status-pending",
+            CONTACTED: "status-contacted",
+            IN_PROGRESS: "status-in-progress",
+            COMPLETED: "status-completed",
+          };
+
+          function applyStatusColor() {
+            statusSelect.classList.remove(
+              "status-pending",
+              "status-contacted",
+              "status-in-progress",
+              "status-completed",
+            );
+
+            statusSelect.classList.add(
+              statusColorClasses[statusSelect.value] || "status-pending",
+            );
+          }
+
+          applyStatusColor();
+
+          statusSelect.onchange = function () {
+            applyStatusColor();
+            updateEnquiryStatus(item.id, statusSelect.value);
+          };
+          card.append(
+            name,
+            phone,
+            service,
+            date,
+            details,
+            followUpLabel,
+            followUpInput,
+            statusLabel,
+            statusSelect,
+            deleteButton,
+          );
+          enquiryList.appendChild(card);
+        });
+      }
+      function exportToExcel() {
+        if (allEnquiries.length === 0) {
+          alert("No enquiries available to export!");
+          return;
+        }
+
+        function csvSafe(value) {
+          let text = String(value ?? "");
+
+          if (/^[\s]*[=+\-@]/.test(text)) {
+            text = "'" + text;
+          }
+
+          return `"${text.replace(/"/g, '""')}"`;
+        }
+
+        const headers = [
+          "Customer Name",
+          "Phone Number",
+          "Service",
+          "Enquiry Date",
+          "Project Details",
+        ];
+
+        const rows = allEnquiries.map((item) => [
+          item.customerName,
+          item.phoneNumber,
+          item.serviceType,
+          item.enquiryDate ? new Date(item.enquiryDate).toLocaleString() : "",
+          item.projectDetails,
+        ]);
+
+        const csv = [headers, ...rows]
+          .map((row) => row.map(csvSafe).join(","))
+          .join("\n");
+
+        const blob = new Blob(["\uFEFF" + csv], {
+          type: "text/csv;charset=utf-8;",
+        });
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = "AI_TAG_Innovation_Enquiries.csv";
+        link.click();
+
+        URL.revokeObjectURL(url);
+      }
+      async function deleteEnquiry(id) {
+        const confirmDelete = confirm(
+          "Are you sure you want to delete this enquiry?",
+        );
+
+        if (!confirmDelete) {
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/api/enquiries/${id}`, {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+              "X-CSRF-TOKEN": csrfToken,
+            },
+          });
+
+          if (response.ok) {
+            alert("Enquiry deleted successfully!");
+            await loadEnquiries();
+          } else {
+            alert("Unable to delete enquiry.");
+          }
+        } catch (error) {
+          console.error(error);
+          alert("Server connection error!");
+        }
+      }
+      async function updateEnquiryStatus(id, status) {
+        try {
+          const response = await fetch(
+            `${API_BASE}/api/enquiries/${id}/status`,
+            {
+              method: "PUT",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+              },
+              body: JSON.stringify({
+                status: status,
+              }),
+            },
+          );
+
+          if (response.ok) {
+            await loadEnquiries();
+            alert("Enquiry status updated successfully!");
+          } else {
+            alert("Unable to update status!");
+          }
+        } catch (error) {
+          console.error(error);
+          alert("Server connection error!");
+        }
+      }
+      async function updateFollowUpDate(id, followUpDate) {
+        try {
+          const response = await fetch(
+            `${API_BASE}/api/enquiries/${id}/follow-up`,
+            {
+              method: "PUT",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+              },
+              body: JSON.stringify({
+                followUpDate: followUpDate,
+              }),
+            },
+          );
+          if (response.ok) {
+            await loadEnquiries();
+            alert("Follow-up date saved successfully!");
+          } else {
+            alert("Unable to save follow-up date!");
+          }
+        } catch (error) {
+          console.error(error);
+          alert("Server connection error!");
+        }
+      }
+      function renderFollowUpDashboard() {
+        const today = new Date();
+        const todayString =
+          today.getFullYear() +
+          "-" +
+          String(today.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(today.getDate()).padStart(2, "0");
+
+        let overdue = 0;
+        let todayCount = 0;
+        let upcoming = 0;
+
+        const followUpList = document.getElementById("followUpList");
+        followUpList.replaceChildren();
+
+        allEnquiries.forEach(function (item) {
+          if (!item.followUpDate || item.status === "COMPLETED") {
+            return;
+          }
+
+          const followUpDate = item.followUpDate;
+
+          let category = "";
+
+          if (followUpDate < todayString) {
+            overdue++;
+            category = "OVERDUE";
+          } else if (followUpDate === todayString) {
+            todayCount++;
+            category = "TODAY";
+          } else {
+            upcoming++;
+            category = "UPCOMING";
+          }
+
+          const card = document.createElement("div");
+          const customer = document.createElement("p");
+          const date = document.createElement("p");
+          const status = document.createElement("p");
+
+          customer.textContent = "Customer: " + item.customerName;
+          date.textContent = "Follow-up: " + followUpDate;
+          status.textContent = "Reminder: " + category;
+
+          card.append(customer, date, status);
+          followUpList.appendChild(card);
+        });
+
+        document.getElementById("overdueCount").textContent = overdue;
+        document.getElementById("todayCount").textContent = todayCount;
+        document.getElementById("upcomingCount").textContent = upcoming;
+      }
+      function updateDashboardClock() {
+        const now = new Date();
+
+        document.getElementById("currentDate").textContent =
+          now.toLocaleDateString("en-IN", {
+            weekday: "long",
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          });
+
+        document.getElementById("currentTime").textContent =
+          now.toLocaleTimeString("en-IN");
+      }
+
+      updateDashboardClock();
+      setInterval(updateDashboardClock, 1000);
+
+      document
+        .getElementById("notificationBtn")
+        .addEventListener("click", () => {
+          const popup = document.getElementById("notificationPopup");
+          const list = document.getElementById("notificationList");
+
+          popup.classList.toggle("hidden");
+
+          if (popup.classList.contains("hidden")) {
+            return;
+          }
+
+          list.replaceChildren();
+          const showNewBtn = document.getElementById("showNewNotificationsBtn");
+          const showHistoryBtn = document.getElementById(
+            "showNotificationHistoryBtn",
+          );
+
+          showNewBtn.classList.toggle("active", notificationView === "new");
+          showHistoryBtn.classList.toggle(
+            "active",
+            notificationView === "history",
+          );
+          // Visitor Notifications
+          newVisitorNotifications
+            .filter((visitor) =>
+              notificationView === "history"
+                ? true
+                : !readVisitorNotificationIds.has(String(visitor.id)),
+            )
+            .forEach((visitor) => {
+              const notification = document.createElement("div");
+              notification.className = "notification-item";
+
+              const title = document.createElement("strong");
+              title.textContent = "🌐 New Website Visitor";
+
+              const visitorId = document.createElement("p");
+              visitorId.textContent =
+                "Visitor ID: " + (visitor.id || "Unknown");
+              const page = document.createElement("p");
+              const pageName =
+                visitor.pagePath === "/index.html" || visitor.pagePath === "/"
+                  ? "Home Page"
+                  : visitor.pagePath === "/civil.html"
+                    ? "Civil Services"
+                    : visitor.pagePath === "/software.html"
+                      ? "Software Services"
+                      : visitor.pagePath || "Unknown";
+
+              page.textContent = "Page: " + pageName;
+
+              const date = document.createElement("p");
+              date.textContent =
+                "Date: " +
+                (visitor.visitedAt
+                  ? new Date(visitor.visitedAt).toLocaleString("en-IN")
+                  : "Not available");
+
+              const status = document.createElement("span");
+              status.className = "notification-status";
+              status.textContent = readVisitorNotificationIds.has(
+                String(visitor.id),
+              )
+                ? "READ"
+                : "NEW";
+              notification.style.cursor = "pointer";
+              notification.addEventListener("click", () => {
+                if (!readVisitorNotificationIds.has(String(visitor.id))) {
+                  readVisitorNotificationIds.add(String(visitor.id));
+
+                  localStorage.setItem(
+                    READ_VISITOR_NOTIFICATION_IDS_KEY,
+                    JSON.stringify([...readVisitorNotificationIds]),
+                  );
+
+                  unreadVisitorNotificationCount = Math.max(
+                    0,
+                    unreadVisitorNotificationCount - 1,
+                  );
+                }
+
+                status.textContent = "READ";
+                updateNotificationBadge();
+              });
+              notification.append(title, visitorId, page, date, status);
+              list.appendChild(notification);
+            });
+          if (
+            newNotifications.filter((item) =>
+              notificationView === "history"
+                ? true
+                : !readNotificationIds.has(String(item.id)),
+            ).length === 0 &&
+            newVisitorNotifications.filter((visitor) =>
+              notificationView === "history"
+                ? true
+                : !readVisitorNotificationIds.has(String(visitor.id)),
+            ).length === 0
+          ) {
+            const emptyMessage = document.createElement("p");
+            emptyMessage.textContent = "No new enquiries.";
+            list.appendChild(emptyMessage);
+          } else {
+            newNotifications
+              .filter((item) =>
+                notificationView === "history"
+                  ? true
+                  : !readNotificationIds.has(String(item.id)),
+              )
+              .forEach((item) => {
+                const notification = document.createElement("div");
+                notification.className = "notification-item";
+                const readStatus = document.createElement("span");
+                readStatus.className = "notification-status";
+                readStatus.textContent = readNotificationIds.has(
+                  String(item.id),
+                )
+                  ? "READ"
+                  : "NEW";
+                notification.appendChild(readStatus);
+                notification.style.cursor = "pointer";
+
+                notification.addEventListener("click", () => {
+                  if (!readNotificationIds.has(String(item.id))) {
+                    readNotificationIds.add(String(item.id));
+
+                    localStorage.setItem(
+                      READ_NOTIFICATION_IDS_KEY,
+                      JSON.stringify([...readNotificationIds]),
+                    );
+
+                    unreadNotificationCount = Math.max(
+                      0,
+                      unreadNotificationCount - 1,
+                    );
+                  }
+
+                  readStatus.textContent = "READ";
+                  updateNotificationBadge();
+                });
+                const customer = document.createElement("strong");
+                customer.textContent = item.customerName || "New Customer";
+
+                const service = document.createElement("p");
+                service.textContent = "Service: " + item.serviceType;
+
+                const date = document.createElement("p");
+
+                const formattedDate = item.enquiryDate
+                  ? new Date(item.enquiryDate).toLocaleString("en-IN", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })
+                  : "Not available";
+
+                date.textContent = "Date: " + formattedDate;
+                notification.append(customer, service, date);
+                list.appendChild(notification);
+              });
+          }
+
+          updateNotificationBadge();
+        });
+      document
+        .getElementById("showNewNotificationsBtn")
+        .addEventListener("click", () => {
+          notificationView = "new";
+          document.getElementById("notificationPopup").classList.add("hidden");
+          document.getElementById("notificationBtn").click();
+        });
+
+      document
+        .getElementById("showNotificationHistoryBtn")
+        .addEventListener("click", () => {
+          notificationView = "history";
+          document.getElementById("notificationPopup").classList.add("hidden");
+          document.getElementById("notificationBtn").click();
+        });
+      document
+        .getElementById("clearNotificationsBtn")
+        .addEventListener("click", () => {
+          newNotifications = [];
+          newVisitorNotifications = [];
+
+          readVisitorNotificationIds.clear();
+          savedVisitorNotificationIds.clear();
+          unreadVisitorNotificationCount = 0;
+
+          localStorage.removeItem(VISITOR_NOTIFICATION_IDS_KEY);
+          localStorage.removeItem(READ_VISITOR_NOTIFICATION_IDS_KEY);
+          readNotificationIds.clear();
+          unreadNotificationCount = 0;
+
+          savedNotificationIds.clear();
+
+          localStorage.removeItem(NOTIFICATION_IDS_KEY);
+          localStorage.removeItem(READ_NOTIFICATION_IDS_KEY);
+
+          document.getElementById("notificationCount").textContent = "0";
+          document.getElementById("notificationList").innerHTML =
+            "<p>No new enquiries.</p>";
+        });
+    </script>
+    <audio id="notificationSound" preload="auto">
+      <source
+        src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+  </body>
+</html>
