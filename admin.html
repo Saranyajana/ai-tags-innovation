@@ -3307,28 +3307,24 @@
                     card.style.display = "";
                   });
 
-                  requestAnimationFrame(() => {
+                  const targetEnquiry = document.getElementById(
+                    `enquiry-${item.id}`,
+                  );
+
+                  if (targetEnquiry) {
+                    targetEnquiry.scrollIntoView({
+                      behavior: "smooth",
+                      block: "center",
+                    });
+
+                    targetEnquiry.style.outline = "2px solid #00eaff";
+
                     setTimeout(() => {
-                      const targetEnquiry = document.getElementById(
-                        `enquiry-${item.id}`,
-                      );
-
-                      if (targetEnquiry) {
-                        targetEnquiry.scrollIntoView({
-                          behavior: "smooth",
-                          block: "center",
-                        });
-
-                        targetEnquiry.style.outline = "2px solid #00eaff";
-
-                        setTimeout(() => {
-                          targetEnquiry.style.outline = "";
-                        }, 2500);
-                      } else {
-                        console.log("Enquiry card not found:", item.id);
-                      }
-                    }, 300);
-                  });
+                      targetEnquiry.style.outline = "";
+                    }, 2500);
+                  } else {
+                    console.log("Enquiry card not found:", item.id);
+                  }
                 });
                 const customer = document.createElement("strong");
                 customer.textContent = item.customerName || "New Customer";
