@@ -3224,24 +3224,57 @@
                 ? "READ"
                 : "NEW";
               notification.style.cursor = "pointer";
+
               notification.addEventListener("click", () => {
-                if (!readVisitorNotificationIds.has(String(visitor.id))) {
-                  readVisitorNotificationIds.add(String(visitor.id));
+                if (!readNotificationIds.has(String(item.id))) {
+                  readNotificationIds.add(String(item.id));
 
                   localStorage.setItem(
-                    READ_VISITOR_NOTIFICATION_IDS_KEY,
-                    JSON.stringify([...readVisitorNotificationIds]),
+                    READ_NOTIFICATION_IDS_KEY,
+                    JSON.stringify([...readNotificationIds]),
                   );
 
-                  unreadVisitorNotificationCount = Math.max(
+                  unreadNotificationCount = Math.max(
                     0,
-                    unreadVisitorNotificationCount - 1,
+                    unreadNotificationCount - 1,
                   );
                 }
 
-                status.textContent = "READ";
+                readStatus.textContent = "READ";
                 updateNotificationBadge();
+
+                // Close notification popup
+                document
+                  .getElementById("notificationPopup")
+                  .classList.add("hidden");
+
+                // Show all enquiries
+                const searchInput = document.getElementById("searchEnquiry");
+                if (searchInput) searchInput.value = "";
+
+                document.querySelectorAll(".enquiry").forEach((card) => {
+                  card.style.display = "";
+                });
+
+                // Scroll to the selected enquiry
+                const targetEnquiry = document.getElementById(
+                  `enquiry-${item.id}`,
+                );
+
+                if (targetEnquiry) {
+                  targetEnquiry.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  });
+
+                  targetEnquiry.style.outline = "2px solid #00eaff";
+
+                  setTimeout(() => {
+                    targetEnquiry.style.outline = "";
+                  }, 2500);
+                }
               });
+
               notification.append(title, visitorId, page, date, status);
               list.appendChild(notification);
             });
